@@ -20,6 +20,9 @@ type Redis interface {
 	// Client opens a new client to this Redis
 	Client() *redis.Client
 
+	// Start starts an unstarted Redis instance
+	Start()
+
 	// Close closes this Redis and associated resources
 	Close() error
 }
@@ -31,6 +34,10 @@ type testRedis struct {
 
 func (tr *testRedis) Addr() string {
 	return tr.app.Address()
+}
+
+func (tr *testRedis) Start() {
+	go tr.app.Run()
 }
 
 func (tr *testRedis) Client() *redis.Client {
@@ -46,6 +53,15 @@ func (tr *testRedis) Close() error {
 
 // Open opens a new test Redis
 func Open() (Redis, error) {
+	redis, err := OpenUnstarted()
+	if err == nil {
+		redis.Start()
+	}
+	return redis, err
+}
+
+// OpenUnstarted opens a new test Redis but not start it.
+func OpenUnstarted() (Redis, error) {
 	tmpDir, err := ioutil.TempDir("", "redis")
 	if err != nil {
 		return nil, fmt.Errorf("Unable to create temp dir: %v", err)
@@ -58,7 +74,5 @@ func Open() (Redis, error) {
 	if err != nil {
 		return nil, err
 	}
-	go app.Run()
-
 	return &testRedis{tmpDir, app}, nil
 }
