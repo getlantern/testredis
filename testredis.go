@@ -68,6 +68,7 @@ func OpenUnstarted() (Redis, error) {
 	}
 
 	cfg := lediscfg.NewConfigDefault()
+	cfg.Addr = "" // use auto-assigned address
 	cfg.DataDir = tmpDir
 
 	app, err := server.NewApp(cfg)
