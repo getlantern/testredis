@@ -9,7 +9,7 @@ import (
 	lediscfg "github.com/siddontang/ledisdb/config"
 	"github.com/siddontang/ledisdb/server"
 
-	"gopkg.in/redis.v5"
+	"github.com/go-redis/redis"
 )
 
 // Redis is a testing Redis
