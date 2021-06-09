@@ -6,10 +6,9 @@ import (
 	"io/ioutil"
 	"os"
 
-	lediscfg "github.com/siddontang/ledisdb/config"
-	"github.com/siddontang/ledisdb/server"
-
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
+	lediscfg "github.com/ledisdb/ledisdb/config"
+	"github.com/ledisdb/ledisdb/server"
 )
 
 // Redis is a testing Redis
